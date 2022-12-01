@@ -13,7 +13,7 @@ float hue;
 
 float *hueconvert(float color, float templ, float templ2){
        if (6*color <1.0){
-        colorout = templ2 + (templ - templ2) * 6 *color;
+        colorout = templ2 + (templ - templ2) * 6 * color;
     } else if (2*color <=1.0){
 
         colorout = templ;
@@ -84,6 +84,9 @@ float *HSLtoRGB(float h, float s, float l) {
 
 float *transparency(float r1, float g1, float b1, float alpha, float r2, float g2, float b2) {
     // to do
+    r = alpha * r1 + (1-alpha) * r2;
+    g = alpha * g1 + (1-alpha) * g2;
+    b = alpha * b1 + (1-alpha) * b2;
     return new float[3] {r, g, b};
 }
 

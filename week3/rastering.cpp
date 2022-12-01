@@ -9,7 +9,7 @@
 #include <list>
 
 #define GL_SILENCE_DEPRECATION
-#include <GL/gl.h>
+// #include <GL/gl.h>
 #ifdef __APPLE__
     #include <GLUT/glut.h>
 #else
