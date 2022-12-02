@@ -98,7 +98,8 @@ void Grid::addPoint(int x, int y) {
 }
 
 void Grid::rasterline(int x0, int y0, int x1, int y1) {
-    // to do
+    addPoint(x0,y0);
+    addPoint(x1,y1);
 }
 
 int main() {
