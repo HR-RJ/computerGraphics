@@ -9,7 +9,7 @@
 #include <list>
 
 #define GL_SILENCE_DEPRECATION
-// #include <GL/gl.h>
+// #include <GL/gl.h> //had to comment this otherwise it wouldnt compile on my machine
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
@@ -146,12 +146,18 @@ int main()
 {
     // testcode
     // let op: de beoordeling wordt gedaan op basis van andere waarden
+
+    //I had to comment #include <GL/gl.h> because othwerwise it wouldnt compile on my machine(Mac)
     Grid grid(20, 20);
     grid.rasterline(0, 0, 19, 19);
-    grid.rasterline(0, 10, 19, 0);
+    // grid.rasterline(0, 10, 19, 0);
     grid.rasterline(0, 19, 19, 0);
-    grid.rasterline(10, 0, 10, 19);
+    // grid.rasterline(10, 0, 10, 19);
     grid.rasterline(0, 10, 19, 10);
+    grid.rasterline(5, 19, 14, 0);
+    grid.rasterline(14, 19, 5, 0);
+    grid.rasterline(9, 19, 9, 0);
+
     grid.draw();
     return 0; // never reached
 }
