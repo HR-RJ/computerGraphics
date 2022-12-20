@@ -88,7 +88,7 @@ void Lines::addLine(int x1, int y1, int x2, int y2) {
 }
 
 int main() {
-    // testcode
+    // testcode!
     Lines lines(640, 480);
     lines.addLine(100, 100, 500, 300);
     for (int i = 100; i < 600; i += 50) {
