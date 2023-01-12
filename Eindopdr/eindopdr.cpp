@@ -1,72 +1,74 @@
 #include <GLUT/glut.h>
 
-float angle = 0.0;
-void display()
-{
-    // Clear the color and depth buffers
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+const GLfloat X = .525731112119133606;
+const GLfloat Z = .850650808352039932;
 
-    // Set the viewport and perspective projection
+static GLfloat vdata[12][3] = {
+   {-X, 0.0, Z}, {X, 0.0, Z}, {-X, 0.0, -Z}, {X, 0.0, -Z},
+   {0.0, Z, X}, {0.0, Z, -X}, {0.0, -Z, X}, {0.0, -Z, -X},
+   {Z, X, 0.0}, {-Z, X, 0.0}, {Z, -X, 0.0}, {-Z, -X, 0.0}
+};
+
+static GLuint tindices[20][3] = {
+   {0,4,1}, {0,9,4}, {9,5,4}, {4,5,8}, {4,8,1},
+   {8,10,1}, {8,3,10}, {5,3,8}, {5,2,3}, {2,7,3},
+   {7,10,3}, {7,6,10}, {7,11,6}, {11,0,6}, {0,1,6},
+   {6,1,10}, {9,0,11}, {9,11,2}, {9,2,5}, {7,2,11}
+};
+
+float angle = 0.0;
+
+void spin() {
+    angle += 1;
+    glutPostRedisplay();
+}
+
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(45.0, 1.0, 1.0, 100.0);
-
-    // Set the modelview matrix
+    gluPerspective(45.0, 1.0, 1.0, 10.0);
     glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    glPushMatrix();
+    glTranslatef(0.0, 0.0, -5.0);
+    glRotatef(30.0 + angle, 1.0, 1.0, 0.0); // rotate icosahedron by 30 degrees around the (1,1,0) axis
+    glBegin(GL_TRIANGLES);
+    for (int i = 0; i < 20; i++) {
+        glNormal3fv(&vdata[tindices[i][0]][0]);
+        glVertex3fv(&vdata[tindices[i][0]][0]);
+        glNormal3fv(&vdata[tindices[i][1]][0]);
+        glVertex3fv(&vdata[tindices[i][1]][0]);
+        glNormal3fv(&vdata[tindices[i][2]][0]);
+        glVertex3fv(&vdata[tindices[i][2]][0]);
+    }
+    glEnd();
+    glPopMatrix();
 
-    // Rotate the cube
-    glRotatef(angle, 1.0, 1.0, 1.0);
-    angle += 0.1; // increment angle for the next frame
-
-    // Set the color of the cube
-    glColor3f(1.0, 0.0, 0.0);
-
-    // Draw the cube
-    glutSolidCube(3);
-
-    // Swap the front and back buffers
-    glutSwapBuffers();
+    glFlush();
 }
 
-
-void timer(int value)
-{
-    angle += 0.5; // increment angle
-    glutPostRedisplay(); // request redraw
-    glutTimerFunc(1000/60, timer, 0); // call timer function again after 60 frames per second
+void init() {
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_COLOR_MATERIAL);
+    glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+    glClearColor(1.0, 1.0, 1.0, 1.0);
 }
 
-int main(int argc, char** argv)
-{
-    // Initialize GLUT
+int main(int argc, char** argv) {
     glutInit(&argc, argv);
-
-    // Set the window size and position
-    glutInitWindowSize(400, 400);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
+    glutInitWindowSize(250, 250);
     glutInitWindowPosition(100, 100);
-
-    // Set the display mode to use a double-buffered window
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-
-    // Create the window
-    glutCreateWindow("Rotating Cube");
-
-    // Enable depth buffer
+    glutCreateWindow("Icosahedron");
+     glClearColor(0.0, 0.0, 0.0, 0.0);
     glEnable(GL_DEPTH_TEST);
-
-    // Set the clear color to black
-    glClearColor(0.0, 0.0, 0.0, 0.0);
-
-    // Set the display function
+    init();
     glutDisplayFunc(display);
-
-    // Set the timer function
-    glutTimerFunc(1000/60, timer, 0);
-
-    // Run the event loop
+    glutIdleFunc(spin);
     glutMainLoop();
 
     return 0;
 }
+
+
