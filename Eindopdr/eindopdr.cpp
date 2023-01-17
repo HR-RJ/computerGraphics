@@ -85,7 +85,7 @@ int main(int argc, char** argv) {
     
     return 0;
 }
-
+//TODO:
 //point of view 
 //pavement background
 //rotate dice faster randomly and stop on a face after user input
