@@ -1,5 +1,6 @@
 #include <GLUT/glut.h>
-
+#include <iostream>
+#include <stdio.h>
 const GLfloat X = .525731112119133606;
 const GLfloat Z = .850650808352039932;
 
@@ -18,8 +19,20 @@ static GLuint tindices[20][3] = {
 
 float angle = 0.0;
 
+//void glutSpecialFunc (unsigned char key, int x, int y ) ;
+
 void spin() {
     angle += 1;
+    glutPostRedisplay();
+}
+
+void input(unsigned char key, int x, int y){
+    if(key == 37){
+        angle += 10;
+    }
+    if(key == 39){
+        angle -= 10;
+    }
     glutPostRedisplay();
 }
 
@@ -65,8 +78,16 @@ int main(int argc, char** argv) {
     glEnable(GL_DEPTH_TEST);
     init();
     glutDisplayFunc(display);
+    // glutSpecialFunc(input);
+    glutKeyboardFunc(input);
     glutIdleFunc(spin);
     glutMainLoop();
-
+    
     return 0;
 }
+
+//point of view 
+//pavement background
+//rotate dice faster randomly and stop on a face after user input
+//add numbers to dice faces
+//g++ eindopdr.cpp -framework GLUT -framework OpenGL -Wno-deprecated --std=c++11
