@@ -1,6 +1,7 @@
 #include <GLUT/glut.h>
 #include <iostream>
 #include <stdio.h>
+#include <unistd.h>
 const GLfloat X = .525731112119133606;
 const GLfloat Z = .850650808352039932;
 
@@ -19,7 +20,18 @@ static GLuint tindices[20][3] = {
 
 float angle = 0.0;
 
-//void glutSpecialFunc (unsigned char key, int x, int y ) ;
+void keyPressed (unsigned char key, int x, int y){
+    if (key == 'a')
+    {
+        for (int i = 0; i < rand() % 360 + 1; i++)
+        {
+            angle++;
+        }
+        
+        // angle += rand() % 360 + 1;
+    }
+    
+}
 
 void spin() {
     angle += 1;
@@ -78,8 +90,7 @@ int main(int argc, char** argv) {
     glEnable(GL_DEPTH_TEST);
     init();
     glutDisplayFunc(display);
-    // glutSpecialFunc(input);
-    glutKeyboardFunc(input);
+    glutKeyboardFunc(keyPressed);
     glutIdleFunc(spin);
     glutMainLoop();
     
