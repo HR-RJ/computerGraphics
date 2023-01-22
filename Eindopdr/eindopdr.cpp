@@ -2,6 +2,8 @@
 #include <iostream>
 #include <stdio.h>
 #include <unistd.h>
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 const GLfloat X = .525731112119133606;
 const GLfloat Z = .850650808352039932;
 
@@ -17,6 +19,13 @@ static GLuint tindices[20][3] = {
    {7,10,3}, {7,6,10}, {7,11,6}, {11,0,6}, {0,1,6},
    {6,1,10}, {9,0,11}, {9,11,2}, {9,2,5}, {7,2,11}
 };
+
+static GLfloat textureCoords[3][2] = {
+    {0.0f, 0.0f},  // lower-left corner  
+    {1.0f, 0.0f},  // lower-right corner
+    {0.5f, 1.0f}   // top-center corner
+};
+static GLfloat borderColor[4] = { 1.0f, 1.0f, 0.0f, 1.0f };
 
 float angle = 0.0;
 
