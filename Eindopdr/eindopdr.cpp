@@ -1,4 +1,12 @@
-#include <GLUT/glut.h>
+#define GL_SILENCE_DEPRECATION
+#ifdef __APPLE__
+    #include <GLUT/glut.h>
+#else
+    #include <GL/glut.h>
+    #include <GL/gl.h>
+#endif
+
+// #include <GLUT/glut.h>
 #include <iostream>
 #include <stdio.h>
 #include <unistd.h>
